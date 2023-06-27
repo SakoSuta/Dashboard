@@ -27,11 +27,11 @@ Route::get('/', function () {
     Route::get('/user', function () {
         return Inertia::render('Dashboard');
     })->name('user');
-    Route::get('/user/{id}', function () {
-        return Inertia::render('Dashboard');
-    })->name('user.show');
-    Route::post('/user', function () {
-        return Inertia::render('Dashboard');
+    // Route::get('/user/{id}', function () {
+    //     return Inertia::render('Dashboard');
+    // })->name('user.show');
+    Route::match(['get', 'post'], '/user/create', function () {
+        return Inertia::render('CreatePage');
     })->name('user.store');
     Route::put('/user', function () {
         return Inertia::render('Dashboard');
