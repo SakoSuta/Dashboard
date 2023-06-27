@@ -45,7 +45,7 @@ Route::get('/', function () {
     })->name('promo_code');
 
     Route::get('/categories', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Category');
     })->name('categories');
 
     Route::get('/games', function () {
