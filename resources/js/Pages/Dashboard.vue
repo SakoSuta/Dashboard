@@ -12,7 +12,7 @@ import { Link } from '@inertiajs/vue3';
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">User</h2>
         </template>
 
-        <div class="py-12">
+        <div class="py-12" v-if="EditON">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
@@ -48,9 +48,9 @@ import { Link } from '@inertiajs/vue3';
                                             <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">. . .</td>
                                             <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.isAdmin }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">
-                                            <Link :href="`/user/update/${user.uuid}`"  class="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded mr-2">
+                                            <button @click="setEditUserUuid(user.uuid)" class="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded mr-2">
                                                 Modifier
-                                            </Link>
+                                            </button>
                                             <button class="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded" @click="deleteUser(user.uuid)">
                                                 Supprimer
                                             </button>
@@ -65,14 +65,55 @@ import { Link } from '@inertiajs/vue3';
                 </div>
             </div>
         </div>
+
+        <div class="py-12" v-else>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h2 class="text-lg font-semibold">Modifier un utilisateur</h2>
+                    
+                    <form @submit.prevent="editeUser">
+                        <div class="mb-4">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
+                            <input type="text" id="name" v-model="EditUser.name" placeholder="Nom" class="text-gray-700 bg-gray-100 border-2 border-gray-300 rounded py-2 px-4" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="pseudo" class="block text-sm font-medium text-gray-700">Pseudo</label>
+                            <input type="text" id="pseudo" v-model="EditUser.pseudo" placeholder="Pseudo" class="text-gray-700 bg-gray-100 border-2 border-gray-300 rounded py-2 px-4" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                            <input type="email" id="email" v-model="EditUser.email" placeholder="Email" class="text-gray-700 bg-gray-100 border-2 border-gray-300 rounded py-2 px-4" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                            <input type="password" id="password" v-model="EditUser.password" placeholder="Mot de passe" class="text-gray-700 bg-gray-100 border-2 border-gray-300 rounded py-2 px-4" required>
+                        </div>
+                        
+                        <div class="mt-6">
+                            <button type="submit" class="bg-purple-700 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded">
+                                Modifier l'utilisateur
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </AuthenticatedLayout>
 </template>
 
 <script>
 import axios from "axios";
+import { ref } from 'vue';
 
 export default {
-  mounted() {
+  async mounted() {
     this.fetchUsers();
   },  
   methods: {
@@ -99,6 +140,29 @@ export default {
       this.users = response.data.data;
       this.totalUsers = response.data.total;
     },
+    async getEditUser(uuid) {
+        const token = localStorage.getItem("token");
+        // const currentURL = window.location.pathname;
+        // const uuid = currentURL.substring(currentURL.lastIndexOf('/') + 1);
+        
+        const responseUser = await axios.get(`http://localhost:3000/api/users/${this.EditUserUuid}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        this.EditUser = responseUser.data;
+        console.log(responseUser.data);
+    },
+    async editeUser() {
+        const token = localStorage.getItem("token");
+        await axios.put(`http://localhost:3000/api/users/${this.EditUserUuid}`, this.EditUser, {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        });
+        window.location.href = '/user';
+        this.EditON = false;
+    },
     async deleteUser(UserUuid) {
         try {
         const token = localStorage.getItem("token");
@@ -119,6 +183,15 @@ export default {
             }
         }
     },
+    setEditUserUuid(uuid) {
+        this.EditUserUuid = uuid;
+        if(this.EditON == false){
+            this.EditON = true;
+        }else{
+            this.EditON = false;
+        }
+        this.getEditUser();
+    },
   },
 
   computed: {
@@ -128,7 +201,15 @@ export default {
   },
   data() {
     return {
+      EditON: ref(true),
+      EditUserUuid: null,
       users: [],
+      EditUser: {
+        name: '',
+        pseudo: '',
+        email: '',
+        password: '',
+      },
       currentPage: 1,
       perPage: 10,
       totalUsers: 0,

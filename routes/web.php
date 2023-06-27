@@ -30,9 +30,6 @@ Route::get('/', function () {
     Route::match(['get', 'post'], '/user/create', function () {
         return Inertia::render('CreatePage');
     })->name('user.store');
-    Route::match(['get', 'put'], '/user/update/{uuid}', function () {
-        return Inertia::render('EditPage');
-    })->name('user.update');
 
     Route::get('/sub', function () {
         return Inertia::render('Dashboard');
