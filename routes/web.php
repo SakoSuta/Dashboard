@@ -25,71 +25,32 @@ Route::get('/', function () {
     ]);
 });
     Route::get('/user', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('User');
     })->name('user');
-    Route::match(['get', 'post'], '/user/create', function () {
-        return Inertia::render('CreatePage');
-    })->name('user.store');
 
     Route::get('/sub', function () {
         return Inertia::render('Dashboard');
     })->name('sub');
-    Route::post('/sub', function () {
-        return Inertia::render('Dashboard');
-    })->name('sub.store');
-    Route::put('/sub', function () {
-        return Inertia::render('Dashboard');
-    })->name('sub.update');
 
     Route::get('/post', function () {
         return Inertia::render('Dashboard');
     })->name('post');
-    Route::post('/post', function () {
-        return Inertia::render('Dashboard');
-    })->name('post.store');
-    Route::put('/post', function () {
-        return Inertia::render('Dashboard');
-    })->name('post.update');
 
     Route::get('/plan', function () {
         return Inertia::render('Dashboard');
     })->name('plan');
-    Route::post('/plan', function () {
-        return Inertia::render('Dashboard');
-    })->name('plan.store');
-    Route::put('/plan', function () {
-        return Inertia::render('Dashboard');
-    })->name('plan.update');
 
     Route::get('/promo_code', function () {
         return Inertia::render('Dashboard');
     })->name('promo_code');
-    Route::post('/promo_code', function () {
-        return Inertia::render('Dashboard');
-    })->name('promo_code.store');
-    Route::put('/promo_code', function () {
-        return Inertia::render('Dashboard');
-    })->name('promo_code.update');
 
     Route::get('/categories', function () {
         return Inertia::render('Dashboard');
     })->name('categories');
-    Route::post('/categories', function () {
-        return Inertia::render('Dashboard');
-    })->name('categories.store');
-    Route::put('/categories', function () {
-        return Inertia::render('Dashboard');
-    })->name('categories.update');
 
     Route::get('/games', function () {
         return Inertia::render('Dashboard');
     })->name('games');
-    Route::post('/games', function () {
-        return Inertia::render('Dashboard');
-    })->name('games.store');
-    Route::put('/games', function () {
-        return Inertia::render('Dashboard');
-    })->name('games.update');
 
 Route::middleware('auth', 'admin')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
