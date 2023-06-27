@@ -38,7 +38,6 @@ import { Link } from '@inertiajs/vue3';
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                         </tr>
                                     </thead>
-                                        <!-- Utilisez une boucle pour afficher les utilisateurs ici -->
                                     <tbody>
                                         <tr v-for="user in users">
                                             <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.id }}</td>
@@ -49,16 +48,15 @@ import { Link } from '@inertiajs/vue3';
                                             <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">. . .</td>
                                             <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.isAdmin }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">
-                                            <button class="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded mr-2">
+                                            <Link :href="`/user/update/${user.uuid}`"  class="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded mr-2">
                                                 Modifier
-                                            </button>
+                                            </Link>
                                             <button class="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded" @click="deleteUser(user.uuid)">
                                                 Supprimer
                                             </button>
                                             </td>
                                         </tr>
                                     </tbody>
-                                        <!-- Répétez cette structure pour chaque utilisateur dans votre liste -->
                                 </table>
                             </div>
                         </div>

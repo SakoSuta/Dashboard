@@ -27,114 +27,72 @@ Route::get('/', function () {
     Route::get('/user', function () {
         return Inertia::render('Dashboard');
     })->name('user');
-    // Route::get('/user/{id}', function () {
-    //     return Inertia::render('Dashboard');
-    // })->name('user.show');
     Route::match(['get', 'post'], '/user/create', function () {
         return Inertia::render('CreatePage');
     })->name('user.store');
-    Route::put('/user', function () {
-        return Inertia::render('Dashboard');
+    Route::match(['get', 'put'], '/user/update/{uuid}', function () {
+        return Inertia::render('EditPage');
     })->name('user.update');
-    Route::delete('/user', function () {
-        return Inertia::render('Dashboard');
-    })->name('user.destroy');
 
     Route::get('/sub', function () {
         return Inertia::render('Dashboard');
     })->name('sub');
-    Route::get('/sub/{id}', function () {
-        return Inertia::render('Dashboard');
-    })->name('sub.show');
     Route::post('/sub', function () {
         return Inertia::render('Dashboard');
     })->name('sub.store');
     Route::put('/sub', function () {
         return Inertia::render('Dashboard');
     })->name('sub.update');
-    Route::delete('/sub', function () {
-        return Inertia::render('Dashboard');
-    })->name('sub.destroy');
 
     Route::get('/post', function () {
         return Inertia::render('Dashboard');
     })->name('post');
-    Route::get('/post/{id}', function () {
-        return Inertia::render('Dashboard');
-    })->name('post.show');
     Route::post('/post', function () {
         return Inertia::render('Dashboard');
     })->name('post.store');
     Route::put('/post', function () {
         return Inertia::render('Dashboard');
     })->name('post.update');
-    Route::delete('/post', function () {
-        return Inertia::render('Dashboard');
-    })->name('post.destroy');
 
     Route::get('/plan', function () {
         return Inertia::render('Dashboard');
     })->name('plan');
-    Route::get('/plan/{id}', function () {
-        return Inertia::render('Dashboard');
-    })->name('plan.show');
     Route::post('/plan', function () {
         return Inertia::render('Dashboard');
     })->name('plan.store');
     Route::put('/plan', function () {
         return Inertia::render('Dashboard');
     })->name('plan.update');
-    Route::delete('/plan', function () {
-        return Inertia::render('Dashboard');
-    })->name('plan.destroy');
 
     Route::get('/promo_code', function () {
         return Inertia::render('Dashboard');
     })->name('promo_code');
-    Route::get('/promo_code/{id}', function () {
-        return Inertia::render('Dashboard');
-    })->name('promo_code.show');
     Route::post('/promo_code', function () {
         return Inertia::render('Dashboard');
     })->name('promo_code.store');
     Route::put('/promo_code', function () {
         return Inertia::render('Dashboard');
     })->name('promo_code.update');
-    Route::delete('/promo_code', function () {
-        return Inertia::render('Dashboard');
-    })->name('promo_code.destroy');
 
     Route::get('/categories', function () {
         return Inertia::render('Dashboard');
     })->name('categories');
-    Route::get('/categories/{id}', function () {
-        return Inertia::render('Dashboard');
-    })->name('categories.show');
     Route::post('/categories', function () {
         return Inertia::render('Dashboard');
     })->name('categories.store');
     Route::put('/categories', function () {
         return Inertia::render('Dashboard');
     })->name('categories.update');
-    Route::delete('/categories', function () {
-        return Inertia::render('Dashboard');
-    })->name('categories.destroy');
 
     Route::get('/games', function () {
         return Inertia::render('Dashboard');
     })->name('games');
-    Route::get('/games/{id}', function () {
-        return Inertia::render('Dashboard');
-    })->name('games.show');
     Route::post('/games', function () {
         return Inertia::render('Dashboard');
     })->name('games.store');
     Route::put('/games', function () {
         return Inertia::render('Dashboard');
     })->name('games.update');
-    Route::delete('/games', function () {
-        return Inertia::render('Dashboard');
-    })->name('games.destroy');
 
 Route::middleware('auth', 'admin')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
