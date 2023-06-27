@@ -35,27 +35,27 @@ import { Head } from '@inertiajs/vue3';
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
                                 <!-- Utilisez une boucle pour afficher les utilisateurs ici -->
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">1</td>
-                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">null</td>
-                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">John Doe</td>
-                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">JohnDouedd</td>
-                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">john.doe@example.com</td>
+                            <tbody>
+                                <tr v-for="user in users">
+                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.image }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.pseudo }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.email }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">. . .</td>
-                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">true</td>
+                                    <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">{{ user.isAdmin }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-xs">
-                                        <button class="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded mr-2">
-                                            Modifier
-                                        </button>
-                                        <button class="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded">
-                                            Supprimer
-                                        </button>
+                                    <button class="bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded mr-2">
+                                        Modifier
+                                    </button>
+                                    <button class="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-4 rounded">
+                                        Supprimer
+                                    </button>
                                     </td>
                                 </tr>
-                                <!-- Répétez cette structure pour chaque utilisateur dans votre liste -->
                             </tbody>
+                                <!-- Répétez cette structure pour chaque utilisateur dans votre liste -->
                         </table>
                     </div>
                 </div>
@@ -63,3 +63,32 @@ import { Head } from '@inertiajs/vue3';
         </div>
     </AuthenticatedLayout>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  async mounted() {
+
+    const token = localStorage.getItem("token");
+
+    axios
+      .get("http://localhost:3000/api/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        this.users = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
+  data() {
+    return {
+      users: [],
+    };
+  },
+};
+</script>
