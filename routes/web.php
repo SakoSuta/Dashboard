@@ -49,7 +49,7 @@ Route::get('/', function () {
     })->name('categories');
 
     Route::get('/games', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Game');
     })->name('games');
 
 Route::middleware('auth', 'admin')->group(function () {
