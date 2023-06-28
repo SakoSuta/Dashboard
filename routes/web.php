@@ -41,7 +41,7 @@ Route::get('/', function () {
     })->name('plan');
 
     Route::get('/promo_code', function () {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Promo');
     })->name('promo_code');
 
     Route::get('/categories', function () {
